@@ -17,6 +17,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 0,
         title: Padding(
           padding: EdgeInsets.symmetric(horizontal: vMspacing.w),
@@ -28,6 +29,22 @@ class HomeView extends GetView<HomeController> {
                 .apply(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, vMspacing.w, 0),
+            child: IconButton(
+              onPressed: () {
+                if (Get.isDarkMode) {
+                  Get.changeThemeMode(ThemeMode.light);
+                } else {
+                  Get.changeThemeMode(ThemeMode.dark);
+                }
+              },
+              icon: iconLightBulb,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          )
+        ],
         //TODO leading: svg_logo,
       ),
       body: Column(
@@ -104,7 +121,7 @@ class ScoresList extends StatelessWidget {
               title: Text(
                 i,
               ),
-            )
+            ),
         ],
       ),
     );
