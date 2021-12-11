@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
+import 'package:landify/app/data/scores_model.dart';
 import 'package:landify/app/widgets/animatedtexts.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -105,8 +106,7 @@ class HomeView extends GetView<HomeController> {
                           isDismissible: true,
                           duration: const Duration(milliseconds: 2500),
                         );
-                        controller.getData("placholder");
-                        print(controller.address.value);
+                        controller.getData();
                       },
                       child: Padding(
                           padding: EdgeInsets.all(vLspacing.w),
@@ -117,7 +117,35 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ],
                 ),
-                if (controller.hasAddress()) ScoresList(),
+                if (controller.hasScores())
+                  SizedBox(
+                    width: 800.w,
+                    height: 500.h,
+                    child: ListView(
+                      children: [
+                        ListTile(
+                          title: Text(
+                              controller.scores.targets.companyFlat.toString()),
+                        ),
+                        ListTile(
+                          title: Text(
+                              controller.scores.targets.couples.toString()),
+                        ),
+                        ListTile(
+                          title: Text(
+                              controller.scores.targets.families.toString()),
+                        ),
+                        ListTile(
+                          title:
+                              Text(controller.scores.targets.single.toString()),
+                        ),
+                        ListTile(
+                          title: Text(
+                              controller.scores.targets.students.toString()),
+                        ),
+                      ],
+                    ),
+                  ),
               ],
             ),
           ),
@@ -162,31 +190,6 @@ class Map extends StatelessWidget {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class ScoresList extends StatelessWidget {
-  const ScoresList({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 800.w,
-      height: 500.h,
-      child: ListView(
-        children: [
-          for (var i in lodzStreets)
-            ListTile(
-              leading: mapMaker,
-              title: Text(
-                i,
-              ),
-            ),
         ],
       ),
     );
