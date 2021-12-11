@@ -41,32 +41,32 @@ TextTheme textTheme = TextTheme(
     fontWeight: FontWeight.w500,
   ),
   headline2: GoogleFonts.montserrat(
-    fontSize: 28.sp,
+    fontSize: 64.sp,
     fontWeight: FontWeight.w400,
   ),
   headline3: GoogleFonts.montserrat(
-    fontSize: 48.sp,
-    fontWeight: FontWeight.w500,
+    fontSize: 36.sp,
+    fontWeight: FontWeight.w400,
   ),
   headline4: GoogleFonts.montserrat(
     fontSize: 48.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
   headline5: GoogleFonts.montserrat(
     fontSize: 14.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
   bodyText1: GoogleFonts.montserrat(
     fontSize: 36.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
   button: GoogleFonts.montserrat(
     fontSize: 24.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
   subtitle1: GoogleFonts.montserrat(
     fontSize: 36.sp,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
   ),
 );
 

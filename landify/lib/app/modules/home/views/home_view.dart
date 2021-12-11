@@ -1,8 +1,9 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:landify/app/core/const/colors.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
@@ -27,34 +28,83 @@ class HomeView extends GetView<HomeController> {
                 .apply(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
+        //TODO leading: svg_logo,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SearchBar(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomButton(),
-              CustomButton(),
-            ],
-          ),
-          Container(
-            width: 800.w,
-            height: 600.h,
-            child: ListView(
+          Padding(
+            padding: EdgeInsets.all(vXLspacing.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (var i in lodzStreets)
-                  ListTile(
-                    leading: mapMaker,
-                    title: Text(
-                      i,
-                    ),
-                  )
+                Text(
+                  sBestPlaceFor,
+                  style: Theme.of(context).textTheme.headline2?.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground),
+                ),
+                AnimatedTextKit(
+                  animatedTexts: [
+                    for (var i in inhabitants)
+                      TypewriterAnimatedText(
+                        i,
+                        textStyle: Theme.of(context)
+                            .textTheme
+                            .headline2
+                            ?.copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground),
+                        speed: const Duration(milliseconds: 200),
+                      ),
+                  ],
+                  displayFullTextOnTap: true,
+                ),
               ],
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SearchBar(),
+              ElevatedButton(
+                onPressed: sendRequest,
+                child: Padding(
+                    padding: EdgeInsets.all(vLspacing.w), child: iconSearch),
+                style: ElevatedButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.button,
+                    primary: Theme.of(context).colorScheme.secondary),
+              ),
+            ],
+          ),
+          //CustomButton(),
+          //CustomButton(),
+          //ScoresList(),
+        ],
+      ),
+    );
+  }
+}
+
+class ScoresList extends StatelessWidget {
+  const ScoresList({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 800.w,
+      height: 500.h,
+      child: ListView(
+        children: [
+          for (var i in lodzStreets)
+            ListTile(
+              leading: mapMaker,
+              title: Text(
+                i,
+              ),
+            )
         ],
       ),
     );
@@ -75,10 +125,16 @@ class CustomButton extends StatelessWidget {
             "dejidjdwwdjoppwdjoooooo",
             style: Theme.of(context).textTheme.button,
           ),
-          onPressed: () {}),
+          style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.all(vMspacing.w),
+              textStyle: Theme.of(context).textTheme.button,
+              primary: Theme.of(context).colorScheme.secondary),
+          onPressed: sendRequest),
     );
   }
 }
+
+void sendRequest() {}
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
@@ -87,17 +143,20 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      //TODO autofillHints: lodzStreets,
-      style: Theme.of(context).textTheme.headline2,
-      decoration: const InputDecoration(
-          hintText: sHintTextSearchBar,
-          labelText: sLabelTextSearchBar,
-          prefixIcon: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: mapMaker,
-          ),
-          border: OutlineInputBorder()),
+    return SizedBox(
+      width: 960.w,
+      child: TextField(
+        //TODO autofillHints: lodzStreets,
+        style: Theme.of(context).textTheme.headline3,
+        decoration: const InputDecoration(
+            hintText: sHintTextSearchBar,
+            labelText: sLabelTextSearchBar,
+            prefixIcon: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: mapMaker,
+            ),
+            border: OutlineInputBorder()),
+      ),
     );
   }
 }
