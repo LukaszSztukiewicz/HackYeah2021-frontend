@@ -28,50 +28,54 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
-      body: SizedBox(
-        width: 960.w,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SearchBar(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SearchBar(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomButton(),
+              CustomButton(),
+            ],
+          ),
+          Container(
+            width: 800.w,
+            height: 600.h,
+            child: ListView(
               children: [
-                MaterialButton(
-                    child: Text(
-                      sAppTitle,
-                      style: Theme.of(context).textTheme.button,
+                for (var i in lodzStreets)
+                  ListTile(
+                    leading: mapMaker,
+                    title: Text(
+                      i,
                     ),
-                    onPressed: () {}),
-                Padding(
-                  padding: EdgeInsets.all(vMspacing.w),
-                  child: OutlinedButton(
-                      child: Text(
-                        "dejidjdwwdjoppwdjoooooo",
-                        style: Theme.of(context).textTheme.button,
-                      ),
-                      onPressed: () {}),
-                )
+                  )
               ],
             ),
-            Container(
-                width: 800.w,
-                height: 600.h,
-                child: ListView(
-                  children: [
-                    for (var i in lodzStreets)
-                      ListTile(
-                        leading: mapMaker,
-                        title: Text(
-                          i,
-                        ),
-                      )
-                  ],
-                )),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(vMspacing.w),
+      child: OutlinedButton(
+          child: Text(
+            "dejidjdwwdjoppwdjoooooo",
+            style: Theme.of(context).textTheme.button,
+          ),
+          onPressed: () {}),
     );
   }
 }
