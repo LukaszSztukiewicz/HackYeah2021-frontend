@@ -4,8 +4,8 @@ const String sLabelTextSearchBar = "Street";
 const String sSearch = "Search!";
 const String sAdvancedSearch = "Advanced Search";
 const String sBestPlaceFor = "Best place for: ";
-const String sSnackBarTitle = "Alert";
-const String sRequestSent = "Request sent";
+//const String sSnackBarTitle = "Request sent for addres: ";
+const String sRequestSent = "Request sent for addres: ";
 
 const String sStudents = "students?";
 const String sCuples = "couples?";

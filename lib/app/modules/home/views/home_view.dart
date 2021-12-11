@@ -4,13 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
-import 'package:invert_colors/invert_colors.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
 import 'package:landify/app/widgets/animatedtexts.dart';
-import 'package:landify/app/widgets/search_bar.dart';
-import 'package:landify/app/widgets/searchbutton.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../controllers/home_controller.dart';
@@ -59,28 +56,68 @@ class HomeView extends GetView<HomeController> {
             width: 1200.w,
             height: 300.h,
             child: Column(
-              mainAxisAlignment: !controller.hasData.value
+              mainAxisAlignment: controller.hasAddress()
                   ? MainAxisAlignment.center
                   : MainAxisAlignment.start,
-              crossAxisAlignment: !controller.hasData.value
+              crossAxisAlignment: controller.hasAddress()
                   ? CrossAxisAlignment.center
                   : CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.all(vXLspacing.w),
-                  child: const AnimatedTexts(),
+                  child: null, //const AnimatedTexts(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       color: Theme.of(context).colorScheme.background,
-                      child: SearchBar(),
+                      child: SizedBox(
+                        width: 960.w,
+                        child: TextField(
+                          onChanged: (str) => {controller.address.value = str},
+                          autofillHints: const [
+                            AutofillHints.streetAddressLevel1
+                          ],
+                          style: Theme.of(context).textTheme.headline3,
+                          decoration: const InputDecoration(
+                              hintText: sHintTextSearchBar,
+                              labelText: sLabelTextSearchBar,
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.all(20.0),
+                                child: mapMaker,
+                              ),
+                              border: OutlineInputBorder()),
+                        ),
+                      ),
                     ),
-                    const SearchButton(),
+                    ElevatedButton(
+                      onPressed: () {
+                        Get.snackbar(
+                          sRequestSent,
+                          controller.address.value,
+                          snackPosition: SnackPosition.BOTTOM,
+                          colorText: Theme.of(context).colorScheme.surface,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onBackground,
+                          maxWidth: 500.w,
+                          animationDuration: const Duration(milliseconds: 500),
+                          isDismissible: true,
+                          duration: const Duration(milliseconds: 2500),
+                        );
+                        controller.getData("placholder");
+                        print(controller.address.value);
+                      },
+                      child: Padding(
+                          padding: EdgeInsets.all(vLspacing.w),
+                          child: iconSearch),
+                      style: ElevatedButton.styleFrom(
+                          textStyle: Theme.of(context).textTheme.button,
+                          primary: Theme.of(context).colorScheme.secondary),
+                    ),
                   ],
                 ),
-                //ScoresList(),
+                if (controller.hasAddress()) ScoresList(),
               ],
             ),
           ),
