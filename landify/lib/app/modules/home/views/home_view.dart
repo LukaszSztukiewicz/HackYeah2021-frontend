@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
 
@@ -27,9 +29,66 @@ class HomeView extends GetView<HomeController> {
         ),
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: []),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          SearchBar(),
+          Row(
+            children: [
+              MaterialButton(
+                  child: Text(
+                    sAppTitle,
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                  onPressed: () {}),
+              Padding(
+                padding: EdgeInsets.all(vMspacing.w),
+                child: OutlinedButton(
+                    child: Text(
+                      "dejidjdwwdjoppwdjoooooo",
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                    onPressed: () {}),
+              )
+            ],
+          ),
+          Container(
+              width: 800.w,
+              height: 600.h,
+              child: ListView(
+                children: [
+                  for (var i in lodzStreets)
+                    ListTile(
+                      leading: mapMaker,
+                      title: Text(
+                        i,
+                      ),
+                    )
+                ],
+              )),
+        ],
+      ),
+    );
+  }
+}
+
+class SearchBar extends StatelessWidget {
+  const SearchBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const TextField(
+      //TODO autofillHints: lodzStreets,
+      decoration: InputDecoration(
+          hintText: sHintTextSearchBar,
+          labelText: sLabelTextSearchBar,
+          prefixIcon: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: mapMaker,
+          ),
+          border: OutlineInputBorder()),
     );
   }
 }

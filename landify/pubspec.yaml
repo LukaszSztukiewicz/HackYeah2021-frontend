@@ -10,6 +10,7 @@ dependencies:
   get: 4.5.1
   google_fonts: 2.1.0
   flutter_screenutil: 5.0.1
+  font_awesome_flutter: 9.2.0
   flutter: 
     sdk: flutter
 
