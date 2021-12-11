@@ -9,15 +9,37 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('HomeView'),
+        title: Text(
+          'HomeView',
+          style: Theme.of(context).textTheme.headline1,
+        ),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
-          'HomeView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'HomeView',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            Text(
+              'HomeView',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            Text(
+              'HomeView',
+              style: Theme.of(context).textTheme.headline3,
+            ),
+            Text(
+              'HomeView',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              'HomeView',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ]),
     );
   }
 }
