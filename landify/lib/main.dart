@@ -21,9 +21,12 @@ void main() {
       builder: () => GetMaterialApp(
         theme: lightTheme,
         darkTheme: darkTheme,
+        defaultTransition: Transition.fade,
         debugShowCheckedModeBanner: false,
         title: sAppTitle,
         initialRoute: AppPages.INITIAL,
+        //TODO locale: const Locale('en', 'US'),
+        //TODO fallbackLocale: const Locale('en', 'US'),
         getPages: AppPages.routes,
       ),
     ),

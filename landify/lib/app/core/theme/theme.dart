@@ -37,24 +37,36 @@ const ColorScheme lightScheme = ColorScheme(
 
 TextTheme textTheme = TextTheme(
   headline1: GoogleFonts.montserrat(
-    fontSize: 48,
-    fontWeight: FontWeight.w700,
+    fontSize: 96.sp,
+    fontWeight: FontWeight.w500,
   ),
   headline2: GoogleFonts.montserrat(
-    fontSize: 36,
-    fontWeight: FontWeight.w700,
+    fontSize: 64.sp,
+    fontWeight: FontWeight.w500,
   ),
   headline3: GoogleFonts.montserrat(
-    fontSize: 24.sp,
-    fontWeight: FontWeight.w700,
+    fontSize: 48.sp,
+    fontWeight: FontWeight.w500,
   ),
   headline4: GoogleFonts.montserrat(
-    fontSize: 18.sp,
-    fontWeight: FontWeight.w700,
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w500,
   ),
   headline5: GoogleFonts.montserrat(
-    fontSize: 48,
-    fontWeight: FontWeight.w700,
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+  ),
+  bodyText1: GoogleFonts.montserrat(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+  ),
+  button: GoogleFonts.montserrat(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
+  ),
+  subtitle1: GoogleFonts.montserrat(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w500,
   ),
 );
 
