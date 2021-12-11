@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +9,7 @@ import 'package:landify/app/core/const/colors.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
+import 'package:landify/app/data/scores_model.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -53,39 +56,26 @@ class HomeView extends GetView<HomeController> {
         children: [
           Padding(
             padding: EdgeInsets.all(vXLspacing.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  sBestPlaceFor,
-                  style: Theme.of(context).textTheme.headline2?.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground),
-                ),
-                AnimatedTextKit(
-                  animatedTexts: [
-                    for (var i in inhabitants)
-                      TypewriterAnimatedText(
-                        i,
-                        textStyle: Theme.of(context)
-                            .textTheme
-                            .headline2
-                            ?.copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground),
-                        speed: const Duration(milliseconds: 200),
-                      ),
-                  ],
-                  displayFullTextOnTap: true,
-                ),
-              ],
-            ),
+            child: const AnimatedTexts(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SearchBar(),
               ElevatedButton(
-                onPressed: sendRequest,
+                onPressed: () {
+                  Get.snackbar(
+                    sSnackBarTitle,
+                    sRequestSent,
+                    snackPosition: SnackPosition.BOTTOM,
+                    colorText: Theme.of(context).colorScheme.surface,
+                    backgroundColor: Theme.of(context).colorScheme.onBackground,
+                    maxWidth: 500.w,
+                    animationDuration: const Duration(milliseconds: 500),
+                    isDismissible: true,
+                    duration: const Duration(milliseconds: 1500),
+                  );
+                },
                 child: Padding(
                     padding: EdgeInsets.all(vLspacing.w), child: iconSearch),
                 style: ElevatedButton.styleFrom(
@@ -94,11 +84,46 @@ class HomeView extends GetView<HomeController> {
               ),
             ],
           ),
+
           //CustomButton(),
           //CustomButton(),
           //ScoresList(),
         ],
       ),
+    );
+  }
+}
+
+class AnimatedTexts extends StatelessWidget {
+  const AnimatedTexts({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          sBestPlaceFor,
+          style: Theme.of(context)
+              .textTheme
+              .headline2
+              ?.copyWith(color: Theme.of(context).colorScheme.onBackground),
+        ),
+        AnimatedTextKit(
+          animatedTexts: [
+            for (var i in inhabitants)
+              TypewriterAnimatedText(
+                i,
+                textStyle: Theme.of(context).textTheme.headline2?.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground),
+                speed: const Duration(milliseconds: 200),
+              ),
+          ],
+          displayFullTextOnTap: true,
+        ),
+      ],
     );
   }
 }
@@ -138,20 +163,24 @@ class CustomButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(vMspacing.w),
       child: OutlinedButton(
-          child: Text(
-            "dejidjdwwdjoppwdjoooooo",
-            style: Theme.of(context).textTheme.button,
-          ),
-          style: OutlinedButton.styleFrom(
-              padding: EdgeInsets.all(vMspacing.w),
-              textStyle: Theme.of(context).textTheme.button,
-              primary: Theme.of(context).colorScheme.secondary),
-          onPressed: sendRequest),
+        child: Text(
+          "dejidjdwwdjoppwdjoooooo",
+          style: Theme.of(context).textTheme.button,
+        ),
+        style: OutlinedButton.styleFrom(
+            padding: EdgeInsets.all(vMspacing.w),
+            textStyle: Theme.of(context).textTheme.button,
+            primary: Theme.of(context).colorScheme.secondary),
+        onPressed: () {
+          Get.snackbar(sSnackBarTitle, sRequestSent,
+              snackPosition: SnackPosition.BOTTOM,
+              colorText: Theme.of(context).colorScheme.onSurface,
+              backgroundColor: Theme.of(context).colorScheme.surface);
+        },
+      ),
     );
   }
 }
-
-void sendRequest() {}
 
 class SearchBar extends StatelessWidget {
   const SearchBar({
@@ -163,7 +192,7 @@ class SearchBar extends StatelessWidget {
     return SizedBox(
       width: 960.w,
       child: TextField(
-        //TODO autofillHints: lodzStreets,
+        autofillHints: const [AutofillHints.streetAddressLevel1],
         style: Theme.of(context).textTheme.headline3,
         decoration: const InputDecoration(
             hintText: sHintTextSearchBar,
