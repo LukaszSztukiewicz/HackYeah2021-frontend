@@ -28,45 +28,49 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SearchBar(),
-          Row(
-            children: [
-              MaterialButton(
-                  child: Text(
-                    sAppTitle,
-                    style: Theme.of(context).textTheme.button,
-                  ),
-                  onPressed: () {}),
-              Padding(
-                padding: EdgeInsets.all(vMspacing.w),
-                child: OutlinedButton(
+      body: SizedBox(
+        width: 960.w,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SearchBar(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MaterialButton(
                     child: Text(
-                      "dejidjdwwdjoppwdjoooooo",
+                      sAppTitle,
                       style: Theme.of(context).textTheme.button,
                     ),
                     onPressed: () {}),
-              )
-            ],
-          ),
-          Container(
-              width: 800.w,
-              height: 600.h,
-              child: ListView(
-                children: [
-                  for (var i in lodzStreets)
-                    ListTile(
-                      leading: mapMaker,
-                      title: Text(
-                        i,
+                Padding(
+                  padding: EdgeInsets.all(vMspacing.w),
+                  child: OutlinedButton(
+                      child: Text(
+                        "dejidjdwwdjoppwdjoooooo",
+                        style: Theme.of(context).textTheme.button,
                       ),
-                    )
-                ],
-              )),
-        ],
+                      onPressed: () {}),
+                )
+              ],
+            ),
+            Container(
+                width: 800.w,
+                height: 600.h,
+                child: ListView(
+                  children: [
+                    for (var i in lodzStreets)
+                      ListTile(
+                        leading: mapMaker,
+                        title: Text(
+                          i,
+                        ),
+                      )
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -79,9 +83,10 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
+    return TextField(
       //TODO autofillHints: lodzStreets,
-      decoration: InputDecoration(
+      style: Theme.of(context).textTheme.headline2,
+      decoration: const InputDecoration(
           hintText: sHintTextSearchBar,
           labelText: sLabelTextSearchBar,
           prefixIcon: Padding(

@@ -41,8 +41,8 @@ TextTheme textTheme = TextTheme(
     fontWeight: FontWeight.w500,
   ),
   headline2: GoogleFonts.montserrat(
-    fontSize: 64.sp,
-    fontWeight: FontWeight.w500,
+    fontSize: 28.sp,
+    fontWeight: FontWeight.w400,
   ),
   headline3: GoogleFonts.montserrat(
     fontSize: 48.sp,
@@ -57,7 +57,7 @@ TextTheme textTheme = TextTheme(
     fontWeight: FontWeight.w500,
   ),
   bodyText1: GoogleFonts.montserrat(
-    fontSize: 48.sp,
+    fontSize: 36.sp,
     fontWeight: FontWeight.w500,
   ),
   button: GoogleFonts.montserrat(
