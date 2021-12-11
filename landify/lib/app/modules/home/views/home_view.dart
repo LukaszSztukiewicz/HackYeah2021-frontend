@@ -1,15 +1,12 @@
-import 'dart:js';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:landify/app/core/const/colors.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
-import 'package:landify/app/data/scores_model.dart';
+import 'package:landify/app/widgets/animatedtexts.dart';
+import 'package:landify/app/widgets/searchbutton.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -60,70 +57,16 @@ class HomeView extends GetView<HomeController> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SearchBar(),
-              ElevatedButton(
-                onPressed: () {
-                  Get.snackbar(
-                    sSnackBarTitle,
-                    sRequestSent,
-                    snackPosition: SnackPosition.BOTTOM,
-                    colorText: Theme.of(context).colorScheme.surface,
-                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                    maxWidth: 500.w,
-                    animationDuration: const Duration(milliseconds: 500),
-                    isDismissible: true,
-                    duration: const Duration(milliseconds: 1500),
-                  );
-                },
-                child: Padding(
-                    padding: EdgeInsets.all(vLspacing.w), child: iconSearch),
-                style: ElevatedButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.button,
-                    primary: Theme.of(context).colorScheme.secondary),
-              ),
+            children: const [
+              SearchBar(),
+              SearchButton(),
             ],
           ),
-
           //CustomButton(),
           //CustomButton(),
-          //ScoresList(),
+          ScoresList(),
         ],
       ),
-    );
-  }
-}
-
-class AnimatedTexts extends StatelessWidget {
-  const AnimatedTexts({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          sBestPlaceFor,
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(color: Theme.of(context).colorScheme.onBackground),
-        ),
-        AnimatedTextKit(
-          animatedTexts: [
-            for (var i in inhabitants)
-              TypewriterAnimatedText(
-                i,
-                textStyle: Theme.of(context).textTheme.headline2?.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground),
-                speed: const Duration(milliseconds: 200),
-              ),
-          ],
-          displayFullTextOnTap: true,
-        ),
-      ],
     );
   }
 }
@@ -135,7 +78,7 @@ class ScoresList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 800.w,
       height: 500.h,
       child: ListView(
