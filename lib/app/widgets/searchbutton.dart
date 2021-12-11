@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
+import 'package:landify/app/modules/home/controllers/home_controller.dart';
 
 class SearchButton extends StatelessWidget {
   const SearchButton({
@@ -25,6 +26,7 @@ class SearchButton extends StatelessWidget {
           isDismissible: true,
           duration: const Duration(milliseconds: 1500),
         );
+        Get.find<HomeController>().getData();
       },
       child: Padding(padding: EdgeInsets.all(vLspacing.w), child: iconSearch),
       style: ElevatedButton.styleFrom(

@@ -5,7 +5,7 @@ class HomeController extends GetxController with StateMixin<List<dynamic>> {
   RxString street = "".obs;
   RxString buildingNumber = "".obs;
   RxBool hasData = false.obs;
-  void getData() {
+  void getData() async {
     ScoresProvider().getScores(street.value, buildingNumber.value).then(
         (response) {
       change(
@@ -16,5 +16,7 @@ class HomeController extends GetxController with StateMixin<List<dynamic>> {
     }, onError: (err) {
       change(null, status: RxStatus.error(err.toString()));
     });
+
+    hasData.value = !hasData.value;
   }
 }

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:invert_colors/invert_colors.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
 import 'package:landify/app/widgets/animatedtexts.dart';
+import 'package:landify/app/widgets/search_bar.dart';
 import 'package:landify/app/widgets/searchbutton.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -47,24 +52,79 @@ class HomeView extends GetView<HomeController> {
         ],
         //TODO leading: svg_logo,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      body: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.all(vXLspacing.w),
-            child: const AnimatedTexts(),
+          Map(),
+          SizedBox(
+            width: 1200.w,
+            height: 300.h,
+            child: Column(
+              mainAxisAlignment: !controller.hasData.value
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
+              crossAxisAlignment: !controller.hasData.value
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(vXLspacing.w),
+                  child: const AnimatedTexts(),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      color: Theme.of(context).colorScheme.background,
+                      child: SearchBar(),
+                    ),
+                    const SearchButton(),
+                  ],
+                ),
+                //ScoresList(),
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              SearchBar(),
-              SearchButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class Map extends StatelessWidget {
+  const Map({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 1920.w,
+      height: 1080.h,
+      child: FlutterMap(
+        options: MapOptions(
+          center: LatLng(51.5, -0.09),
+          zoom: 13.0,
+        ),
+        layers: [
+          TileLayerOptions(
+            urlTemplate: Get.isDarkMode
+                ? "http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
+                : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            subdomains: ['a', 'b', 'c'],
+          ),
+          MarkerLayerOptions(
+            markers: [
+              Marker(
+                point: LatLng(51.5, -0.09),
+                builder: (ctx) => Transform.translate(
+                    child: FaIcon(
+                      FontAwesomeIcons.mapMarkerAlt,
+                      size: 100.w,
+                    ),
+                    offset: Offset.fromDirection(-500)),
+              ),
             ],
           ),
-          //CustomButton(),
-          //CustomButton(),
-          ScoresList(),
         ],
       ),
     );
@@ -91,60 +151,6 @@ class ScoresList extends StatelessWidget {
               ),
             ),
         ],
-      ),
-    );
-  }
-}
-
-class CustomButton extends StatelessWidget {
-  const CustomButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(vMspacing.w),
-      child: OutlinedButton(
-        child: Text(
-          "dejidjdwwdjoppwdjoooooo",
-          style: Theme.of(context).textTheme.button,
-        ),
-        style: OutlinedButton.styleFrom(
-            padding: EdgeInsets.all(vMspacing.w),
-            textStyle: Theme.of(context).textTheme.button,
-            primary: Theme.of(context).colorScheme.secondary),
-        onPressed: () {
-          Get.snackbar(sSnackBarTitle, sRequestSent,
-              snackPosition: SnackPosition.BOTTOM,
-              colorText: Theme.of(context).colorScheme.onSurface,
-              backgroundColor: Theme.of(context).colorScheme.surface);
-        },
-      ),
-    );
-  }
-}
-
-class SearchBar extends StatelessWidget {
-  const SearchBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 960.w,
-      child: TextField(
-        autofillHints: const [AutofillHints.streetAddressLevel1],
-        style: Theme.of(context).textTheme.headline3,
-        decoration: const InputDecoration(
-            hintText: sHintTextSearchBar,
-            labelText: sLabelTextSearchBar,
-            prefixIcon: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: mapMaker,
-            ),
-            border: OutlineInputBorder()),
       ),
     );
   }
