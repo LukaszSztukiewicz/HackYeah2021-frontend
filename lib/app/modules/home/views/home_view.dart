@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
@@ -85,7 +84,7 @@ class HomeView extends GetView<HomeController> {
                               size: 100.w,
                               color: Theme.of(context).colorScheme.primary,
                             ),
-                            offset: Offset.fromDirection(-500)),
+                            offset: Offset.fromDirection(200.2)),
                       ),
                     ],
                   ),
@@ -94,195 +93,314 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           Obx(
-            () => Center(
-              child: SizedBox(
-                width: 1200.w,
-                height: 350.h,
-                child: Card(
-                  color: Theme.of(context).colorScheme.background,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(vMspacing.w)),
-                  child: Column(
-                    mainAxisAlignment: controller.hasData.value
-                        ? MainAxisAlignment.center
-                        : MainAxisAlignment.start,
-                    crossAxisAlignment: controller.hasData.value
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(vXLspacing.w),
-                        child: const AnimatedTexts(),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            color: Theme.of(context).colorScheme.background,
-                            child: SizedBox(
-                              width: 960.w,
-                              child: TextField(
-                                onChanged: (str) =>
-                                    {controller.address.value = str},
-                                autofillHints: const [
-                                  AutofillHints.streetAddressLevel1
-                                ],
-                                style: Theme.of(context).textTheme.headline3,
-                                decoration: const InputDecoration(
-                                    hintText: sHintTextSearchBar,
-                                    labelText: sLabelTextSearchBar,
-                                    prefixIcon: Padding(
-                                      padding: EdgeInsets.all(20.0),
-                                      child: mapMaker,
-                                    ),
-                                    border: OutlineInputBorder()),
-                              ),
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Get.snackbar(
-                                sRequestSent,
-                                controller.address.value,
-                                snackPosition: SnackPosition.BOTTOM,
-                                colorText:
-                                    Theme.of(context).colorScheme.surface,
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.onBackground,
-                                maxWidth: 500.w,
-                                animationDuration:
-                                    const Duration(milliseconds: 500),
-                                isDismissible: true,
-                                duration: const Duration(milliseconds: 2500),
-                              );
-                              controller.getData();
-                              _mapctl.move(
-                                  LatLng(controller.scores.coordinates.latitude,
-                                      controller.scores.coordinates.longitude),
-                                  7.0);
-                            },
-                            child: Padding(
-                                padding: EdgeInsets.all(vLspacing.w),
-                                child: iconSearch),
-                            style: ElevatedButton.styleFrom(
-                                textStyle: Theme.of(context).textTheme.button,
-                                primary:
-                                    Theme.of(context).colorScheme.secondary),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Obx(
-            () => SizedBox(
-              width: 800.w,
-              height: 500.h,
+            () => Transform.translate(
+              offset: controller.hasData.value
+                  ? Offset(0, 0)
+                  : Offset(380.w, 250.h),
               child: controller.hasData.value
-                  ? Card(
-                      color: Theme.of(context).colorScheme.background,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: Theme.of(context).colorScheme.primary,
-                              width: 5.w),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Center(
-                        child: ListView(
-                          padding: EdgeInsets.all(vLspacing.w),
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          color: Theme.of(context).colorScheme.background,
+                          child: SizedBox(
+                            width: 960.w,
+                            child: TextField(
+                              onChanged: (str) =>
+                                  {controller.address.value = str},
+                              autofillHints: const [
+                                AutofillHints.streetAddressLevel1
+                              ],
+                              style: Theme.of(context).textTheme.headline3,
+                              decoration: const InputDecoration(
+                                  hintText: sHintTextSearchBar,
+                                  labelText: sLabelTextSearchBar,
+                                  prefixIcon: Padding(
+                                    padding: EdgeInsets.all(20.0),
+                                    child: mapMaker,
+                                  ),
+                                  border: OutlineInputBorder()),
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.snackbar(
+                              sRequestSent,
+                              controller.address.value,
+                              snackPosition: SnackPosition.BOTTOM,
+                              colorText: Theme.of(context).colorScheme.surface,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onBackground,
+                              maxWidth: 500.w,
+                              animationDuration:
+                                  const Duration(milliseconds: 500),
+                              isDismissible: true,
+                              duration: const Duration(milliseconds: 2500),
+                            );
+                            controller.getData();
+                            _mapctl.move(
+                                LatLng(controller.scores.coordinates.latitude,
+                                    controller.scores.coordinates.longitude),
+                                7.0);
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.all(vLspacing.w),
+                              child: iconSearch),
+                          style: ElevatedButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.button,
+                              primary: Theme.of(context).colorScheme.secondary),
+                        ),
+                      ],
+                    )
+                  : SizedBox(
+                      width: 1200.w,
+                      height: 350.h,
+                      child: Card(
+                        color: Theme.of(context).colorScheme.background,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(vMspacing.w)),
+                        child: Column(
+                          mainAxisAlignment: controller.hasData.value
+                              ? MainAxisAlignment.center
+                              : MainAxisAlignment.start,
+                          crossAxisAlignment: controller.hasData.value
+                              ? CrossAxisAlignment.center
+                              : CrossAxisAlignment.start,
                           children: [
-                            ListTile(
-                              title: Text(
-                                "Company flat",
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              subtitle: Container(
+                            Padding(
+                              padding: EdgeInsets.all(vXLspacing.w),
+                              child: const AnimatedTexts(),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
                                   color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  height: 12.h,
-                                  width:
-                                      (controller.scores.targets.companyFlat *
-                                              100)
-                                          .w),
-                              trailing: Text(controller
-                                      .scores.targets.companyFlat
-                                      .toStringAsFixed(3) +
-                                  "%"),
-                            ),
-                            ListTile(
-                              leading: FaIcon(FontAwesomeIcons.adversal),
-                              title: Text(
-                                "Students",
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              subtitle: Container(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  height: 20.h,
-                                  width:
-                                      controller.scores.targets.students * 100),
-                              trailing: Text(controller
-                                      .scores.targets.companyFlat
-                                      .toStringAsFixed(2) +
-                                  "%"),
-                            ),
-                            ListTile(
-                              leading: FaIcon(FontAwesomeIcons.adversal),
-                              title: Text(
-                                "Couples",
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              subtitle: Container(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  height: 20.h,
-                                  width:
-                                      controller.scores.targets.couples * 100),
-                              trailing: Text(controller
-                                      .scores.targets.companyFlat
-                                      .toStringAsFixed(2) +
-                                  "%"),
-                            ),
-                            ListTile(
-                              leading: FaIcon(FontAwesomeIcons.adversal),
-                              title: Text(
-                                "Families",
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              subtitle: Container(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  height: 20.h,
-                                  width:
-                                      controller.scores.targets.families * 100),
-                              trailing: Text(controller
-                                      .scores.targets.companyFlat
-                                      .toStringAsFixed(2) +
-                                  "%"),
-                            ),
-                            ListTile(
-                              title: Text(
-                                  controller.scores.targets.couples.toString()),
-                            ),
-                            ListTile(
-                              title: Text(controller.scores.targets.families
-                                  .toString()),
-                            ),
-                            ListTile(
-                              title: Text(
-                                  controller.scores.targets.single.toString()),
-                            ),
-                            ListTile(
-                              title: Text(controller.scores.targets.students
-                                  .toString()),
+                                      Theme.of(context).colorScheme.background,
+                                  child: SizedBox(
+                                    width: 960.w,
+                                    child: TextField(
+                                      onChanged: (str) =>
+                                          {controller.address.value = str},
+                                      autofillHints: const [
+                                        AutofillHints.streetAddressLevel1
+                                      ],
+                                      style:
+                                          Theme.of(context).textTheme.headline3,
+                                      decoration: const InputDecoration(
+                                          hintText: sHintTextSearchBar,
+                                          labelText: sLabelTextSearchBar,
+                                          prefixIcon: Padding(
+                                            padding: EdgeInsets.all(20.0),
+                                            child: mapMaker,
+                                          ),
+                                          border: OutlineInputBorder()),
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Get.snackbar(
+                                      sRequestSent,
+                                      controller.address.value,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      colorText:
+                                          Theme.of(context).colorScheme.surface,
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
+                                      maxWidth: 500.w,
+                                      animationDuration:
+                                          const Duration(milliseconds: 500),
+                                      isDismissible: true,
+                                      duration:
+                                          const Duration(milliseconds: 2500),
+                                    );
+                                    controller.getData();
+                                    _mapctl.move(
+                                        LatLng(
+                                            controller
+                                                .scores.coordinates.latitude,
+                                            controller
+                                                .scores.coordinates.longitude),
+                                        7.0);
+                                  },
+                                  child: Padding(
+                                      padding: EdgeInsets.all(vLspacing.w),
+                                      child: iconSearch),
+                                  style: ElevatedButton.styleFrom(
+                                      textStyle:
+                                          Theme.of(context).textTheme.button,
+                                      primary: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
-                    )
-                  : null,
+                    ),
+            ),
+          ),
+          Obx(
+            () => Transform.translate(
+              offset: controller.hasData.value
+                  ? Offset(600.w, 400.h)
+                  : Offset(380.w, 250.h),
+              child: SizedBox(
+                width: 800.w,
+                height: 500.h,
+                child: controller.hasData.value
+                    ? Card(
+                        color: Theme.of(context).colorScheme.background,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.w)),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(vLspacing.w),
+                            child: ListView(
+                              children: [
+                                ListTile(
+                                  leading: FaIcon(
+                                    FontAwesomeIcons.mapMarkerAlt,
+                                    size: 60.w,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                                  subtitle: Text(
+                                    controller.scores.address.street +
+                                        " " +
+                                        controller.scores.address.buildingNumber
+                                            .toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline2!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground),
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    "Families",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                  subtitle: SizedBox(
+                                    width: controller.scores.targets.families *
+                                        100,
+                                    child: Container(
+                                      color: Color(0xFF006e00),
+                                      height: 12.h,
+                                    ),
+                                  ),
+                                  trailing: Text(
+                                    (controller.scores.targets.families * 100)
+                                            .toStringAsFixed(2) +
+                                        "%",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    "Single",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                  subtitle: Container(
+                                    color: Colors.greenAccent,
+                                    height: 12.h,
+                                    width: 60,
+                                  ),
+                                  trailing: Text(
+                                    (controller.scores.targets.single * 100)
+                                            .toStringAsFixed(2) +
+                                        "%",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    "Studets",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                  subtitle: Container(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      height: 12.h,
+                                      width:
+                                          (controller.scores.targets.students *
+                                                  100)
+                                              .w),
+                                  trailing: Text(
+                                    (controller.scores.targets.students * 100)
+                                            .toStringAsFixed(2) +
+                                        "%",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    "Company flat",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                  subtitle: Container(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      height: 12.h,
+                                      width: (controller
+                                                  .scores.targets.companyFlat *
+                                              100)
+                                          .w),
+                                  trailing: Text(
+                                    (controller.scores.targets.students * 100)
+                                            .toStringAsFixed(2) +
+                                        "%",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    "Couples",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                  subtitle: Container(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      height: 12.h,
+                                      width:
+                                          (controller.scores.targets.couples *
+                                                  100)
+                                              .w),
+                                  trailing: Text(
+                                    (controller.scores.targets.couples * 100)
+                                            .toStringAsFixed(2) +
+                                        "%",
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : null,
+              ),
             ),
           ),
         ],
