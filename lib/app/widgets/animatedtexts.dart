@@ -1,6 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:landify/app/core/const/string.dart';
 
 class AnimatedTexts extends StatelessWidget {
@@ -19,7 +18,7 @@ class AnimatedTexts extends StatelessWidget {
               color: Theme.of(context).colorScheme.onBackground,
               fontWeight: FontWeight.w400),
         ),
-        OptionalWidget(),
+        const OptionalWidget(),
       ],
     );
   }

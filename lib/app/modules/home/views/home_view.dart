@@ -313,7 +313,7 @@ class HomeView extends GetView<HomeController> {
                                         Theme.of(context).textTheme.headline4,
                                   ),
                                   subtitle: Container(
-                                    color: Colors.greenAccent,
+                                    color: Color(0xFF3b6e00),
                                     height: 12.h,
                                     width: 60,
                                   ),
@@ -332,9 +332,7 @@ class HomeView extends GetView<HomeController> {
                                         Theme.of(context).textTheme.headline4,
                                   ),
                                   subtitle: Container(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
+                                      color: Color(0xFF6c6e00),
                                       height: 12.h,
                                       width:
                                           (controller.scores.targets.students *
@@ -355,9 +353,7 @@ class HomeView extends GetView<HomeController> {
                                         Theme.of(context).textTheme.headline4,
                                   ),
                                   subtitle: Container(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
+                                      color: Color(0xFF6e3900),
                                       height: 12.h,
                                       width: (controller
                                                   .scores.targets.companyFlat *
@@ -378,9 +374,7 @@ class HomeView extends GetView<HomeController> {
                                         Theme.of(context).textTheme.headline4,
                                   ),
                                   subtitle: Container(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
+                                      color: Color(0xFF6e1600),
                                       height: 12.h,
                                       width:
                                           (controller.scores.targets.couples *
