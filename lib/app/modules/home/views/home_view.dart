@@ -94,77 +94,86 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           Obx(
-            () => SizedBox(
-              width: 1200.w,
-              height: 300.h,
-              child: Column(
-                mainAxisAlignment: controller.hasData.value
-                    ? MainAxisAlignment.center
-                    : MainAxisAlignment.start,
-                crossAxisAlignment: controller.hasData.value
-                    ? CrossAxisAlignment.center
-                    : CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(vXLspacing.w),
-                    child: const AnimatedTexts(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            () => Center(
+              child: SizedBox(
+                width: 1200.w,
+                height: 350.h,
+                child: Card(
+                  color: Theme.of(context).colorScheme.background,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(vMspacing.w)),
+                  child: Column(
+                    mainAxisAlignment: controller.hasData.value
+                        ? MainAxisAlignment.center
+                        : MainAxisAlignment.start,
+                    crossAxisAlignment: controller.hasData.value
+                        ? CrossAxisAlignment.center
+                        : CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        color: Theme.of(context).colorScheme.background,
-                        child: SizedBox(
-                          width: 960.w,
-                          child: TextField(
-                            onChanged: (str) =>
-                                {controller.address.value = str},
-                            autofillHints: const [
-                              AutofillHints.streetAddressLevel1
-                            ],
-                            style: Theme.of(context).textTheme.headline3,
-                            decoration: const InputDecoration(
-                                hintText: sHintTextSearchBar,
-                                labelText: sLabelTextSearchBar,
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.all(20.0),
-                                  child: mapMaker,
-                                ),
-                                border: OutlineInputBorder()),
-                          ),
-                        ),
+                      Padding(
+                        padding: EdgeInsets.all(vXLspacing.w),
+                        child: const AnimatedTexts(),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Get.snackbar(
-                            sRequestSent,
-                            controller.address.value,
-                            snackPosition: SnackPosition.BOTTOM,
-                            colorText: Theme.of(context).colorScheme.surface,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onBackground,
-                            maxWidth: 500.w,
-                            animationDuration:
-                                const Duration(milliseconds: 500),
-                            isDismissible: true,
-                            duration: const Duration(milliseconds: 2500),
-                          );
-                          controller.getData();
-                          _mapctl.move(
-                              LatLng(controller.scores.coordinates.latitude,
-                                  controller.scores.coordinates.longitude),
-                              7.0);
-                        },
-                        child: Padding(
-                            padding: EdgeInsets.all(vLspacing.w),
-                            child: iconSearch),
-                        style: ElevatedButton.styleFrom(
-                            textStyle: Theme.of(context).textTheme.button,
-                            primary: Theme.of(context).colorScheme.secondary),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            color: Theme.of(context).colorScheme.background,
+                            child: SizedBox(
+                              width: 960.w,
+                              child: TextField(
+                                onChanged: (str) =>
+                                    {controller.address.value = str},
+                                autofillHints: const [
+                                  AutofillHints.streetAddressLevel1
+                                ],
+                                style: Theme.of(context).textTheme.headline3,
+                                decoration: const InputDecoration(
+                                    hintText: sHintTextSearchBar,
+                                    labelText: sLabelTextSearchBar,
+                                    prefixIcon: Padding(
+                                      padding: EdgeInsets.all(20.0),
+                                      child: mapMaker,
+                                    ),
+                                    border: OutlineInputBorder()),
+                              ),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Get.snackbar(
+                                sRequestSent,
+                                controller.address.value,
+                                snackPosition: SnackPosition.BOTTOM,
+                                colorText:
+                                    Theme.of(context).colorScheme.surface,
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onBackground,
+                                maxWidth: 500.w,
+                                animationDuration:
+                                    const Duration(milliseconds: 500),
+                                isDismissible: true,
+                                duration: const Duration(milliseconds: 2500),
+                              );
+                              controller.getData();
+                              _mapctl.move(
+                                  LatLng(controller.scores.coordinates.latitude,
+                                      controller.scores.coordinates.longitude),
+                                  7.0);
+                            },
+                            child: Padding(
+                                padding: EdgeInsets.all(vLspacing.w),
+                                child: iconSearch),
+                            style: ElevatedButton.styleFrom(
+                                textStyle: Theme.of(context).textTheme.button,
+                                primary:
+                                    Theme.of(context).colorScheme.secondary),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
@@ -176,13 +185,15 @@ class HomeView extends GetView<HomeController> {
                   ? Card(
                       color: Theme.of(context).colorScheme.background,
                       shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 5.w),
                           borderRadius: BorderRadius.circular(30)),
                       child: Center(
                         child: ListView(
                           padding: EdgeInsets.all(vLspacing.w),
                           children: [
                             ListTile(
-                              leading: FaIcon(FontAwesomeIcons.adversal),
                               title: Text(
                                 "Company flat",
                                 style: Theme.of(context).textTheme.headline4,
@@ -190,12 +201,14 @@ class HomeView extends GetView<HomeController> {
                               subtitle: Container(
                                   color:
                                       Theme.of(context).colorScheme.secondary,
-                                  height: 20.h,
-                                  width: controller.scores.targets.companyFlat *
-                                      100),
+                                  height: 12.h,
+                                  width:
+                                      (controller.scores.targets.companyFlat *
+                                              100)
+                                          .w),
                               trailing: Text(controller
                                       .scores.targets.companyFlat
-                                      .toStringAsFixed(2) +
+                                      .toStringAsFixed(3) +
                                   "%"),
                             ),
                             ListTile(

@@ -49,7 +49,7 @@ TextTheme textTheme = TextTheme(
     fontWeight: FontWeight.w400,
   ),
   headline4: GoogleFonts.montserrat(
-    fontSize: 48.sp,
+    fontSize: 36.sp,
     fontWeight: FontWeight.w400,
   ),
   headline5: GoogleFonts.montserrat(

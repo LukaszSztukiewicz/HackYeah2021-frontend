@@ -17,9 +17,9 @@ class AnimatedTexts extends StatelessWidget {
           sBestPlaceFor,
           style: Theme.of(context).textTheme.headline2?.copyWith(
               color: Theme.of(context).colorScheme.onBackground,
-              fontWeight: FontWeight.w900),
+              fontWeight: FontWeight.w400),
         ),
-        //OptionalWidget(),
+        OptionalWidget(),
       ],
     );
   }
