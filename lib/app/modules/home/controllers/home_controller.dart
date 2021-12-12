@@ -14,10 +14,10 @@ class HomeController extends GetxController {
   void getData() async {
     await ScoresProvider().getScores(address.value).then(
       (respScores) {
-        scores = scoresFromJson(respScores);
+        scores = respScores;
         print(scores.coordinates.latitude);
         hasData.value = true;
-        //update();
+        update();
       },
       onError: (err) {
         //change(null, status: RxStatus.error(err.toString()));

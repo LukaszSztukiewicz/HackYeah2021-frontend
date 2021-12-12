@@ -18,6 +18,7 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -52,7 +53,39 @@ class HomeView extends GetView<HomeController> {
       ),
       body: Stack(
         children: [
-          Map(),
+          Obx(
+            () => SizedBox(
+              width: 1920.w,
+              height: 1080.h,
+              child: FlutterMap(
+                options: MapOptions(
+                  center: LatLng(51.5, -0.09),
+                  zoom: 13.0,
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate: Get.isDarkMode
+                        ? "http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
+                        : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                  MarkerLayerOptions(
+                    markers: [
+                      Marker(
+                        point: LatLng(51.5, -0.09),
+                        builder: (ctx) => Transform.translate(
+                            child: FaIcon(
+                              FontAwesomeIcons.mapMarkerAlt,
+                              size: 100.w,
+                            ),
+                            offset: Offset.fromDirection(-500)),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
           SizedBox(
             width: 1200.w,
             height: 300.h,
@@ -117,84 +150,49 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(controller.hasData.value
-                      ? controller.scores.address.street
-                      : "Xdd"),
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(controller.hasData.value
+                        ? controller.scores.address.street
+                        : "Xdd"),
+                  ),
                 ),
-                if (controller.hasData.value)
-                  SizedBox(
+                Obx(
+                  () => SizedBox(
                     width: 800.w,
                     height: 500.h,
-                    child: ListView(
-                      children: [
-                        ListTile(
-                          title: Text(
-                              controller.scores.targets.companyFlat.toString()),
-                        ),
-                        ListTile(
-                          title: Text(
-                              controller.scores.targets.couples.toString()),
-                        ),
-                        ListTile(
-                          title: Text(
-                              controller.scores.targets.families.toString()),
-                        ),
-                        ListTile(
-                          title:
-                              Text(controller.scores.targets.single.toString()),
-                        ),
-                        ListTile(
-                          title: Text(
-                              controller.scores.targets.students.toString()),
-                        ),
-                      ],
-                    ),
+                    child: controller.hasData.value
+                        ? ListView(
+                            children: [
+                              ListTile(
+                                title: Text(controller
+                                    .scores.targets.companyFlat
+                                    .toString()),
+                              ),
+                              ListTile(
+                                title: Text(controller.scores.targets.couples
+                                    .toString()),
+                              ),
+                              ListTile(
+                                title: Text(controller.scores.targets.families
+                                    .toString()),
+                              ),
+                              ListTile(
+                                title: Text(controller.scores.targets.single
+                                    .toString()),
+                              ),
+                              ListTile(
+                                title: Text(controller.scores.targets.students
+                                    .toString()),
+                              ),
+                            ],
+                          )
+                        : null,
                   ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Map extends StatelessWidget {
-  const Map({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 1920.w,
-      height: 1080.h,
-      child: FlutterMap(
-        options: MapOptions(
-          center: LatLng(51.5, -0.09),
-          zoom: 13.0,
-        ),
-        layers: [
-          TileLayerOptions(
-            urlTemplate: Get.isDarkMode
-                ? "http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
-                : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c'],
-          ),
-          MarkerLayerOptions(
-            markers: [
-              Marker(
-                point: LatLng(51.5, -0.09),
-                builder: (ctx) => Transform.translate(
-                    child: FaIcon(
-                      FontAwesomeIcons.mapMarkerAlt,
-                      size: 100.w,
-                    ),
-                    offset: Offset.fromDirection(-500)),
-              ),
-            ],
           ),
         ],
       ),
