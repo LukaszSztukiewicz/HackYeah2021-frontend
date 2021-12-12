@@ -117,7 +117,13 @@ class HomeView extends GetView<HomeController> {
                     ),
                   ],
                 ),
-                if (controller.hasScores())
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(controller.hasData.value
+                      ? controller.scores.address.street
+                      : "Xdd"),
+                ),
+                if (controller.hasData.value)
                   SizedBox(
                     width: 800.w,
                     height: 500.h,
