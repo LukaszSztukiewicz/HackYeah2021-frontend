@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:landify/app/core/const/icons.dart';
 import 'package:landify/app/core/const/string.dart';
 import 'package:landify/app/core/const/vars.dart';
-import 'package:landify/app/data/scores_model.dart';
 import 'package:landify/app/widgets/animatedtexts.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -19,6 +19,8 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+    MapController _mapctl = MapController();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -49,7 +51,7 @@ class HomeView extends GetView<HomeController> {
             ),
           )
         ],
-        //TODO leading: svg_logo,
+        //TODO leading: ,
       ),
       body: Stack(
         children: [
@@ -58,9 +60,10 @@ class HomeView extends GetView<HomeController> {
               width: 1920.w,
               height: 1080.h,
               child: FlutterMap(
+                mapController: _mapctl,
                 options: MapOptions(
-                  center: LatLng(51.5, -0.09),
-                  zoom: 13.0,
+                  center: LatLng(51.76, 19.46),
+                  zoom: 10.0,
                 ),
                 layers: [
                   TileLayerOptions(
@@ -72,11 +75,15 @@ class HomeView extends GetView<HomeController> {
                   MarkerLayerOptions(
                     markers: [
                       Marker(
-                        point: LatLng(51.5, -0.09),
+                        point: controller.hasData.value
+                            ? LatLng(controller.scores.coordinates.latitude,
+                                controller.scores.coordinates.longitude)
+                            : LatLng(51.76, 19.46),
                         builder: (ctx) => Transform.translate(
                             child: FaIcon(
                               FontAwesomeIcons.mapMarkerAlt,
                               size: 100.w,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                             offset: Offset.fromDirection(-500)),
                       ),
@@ -86,112 +93,183 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
-          SizedBox(
-            width: 1200.w,
-            height: 300.h,
-            child: Column(
-              mainAxisAlignment: controller.hasAddress()
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.start,
-              crossAxisAlignment: controller.hasAddress()
-                  ? CrossAxisAlignment.center
-                  : CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(vXLspacing.w),
-                  child: null, //const AnimatedTexts(),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      color: Theme.of(context).colorScheme.background,
-                      child: SizedBox(
-                        width: 960.w,
-                        child: TextField(
-                          onChanged: (str) => {controller.address.value = str},
-                          autofillHints: const [
-                            AutofillHints.streetAddressLevel1
-                          ],
-                          style: Theme.of(context).textTheme.headline3,
-                          decoration: const InputDecoration(
-                              hintText: sHintTextSearchBar,
-                              labelText: sLabelTextSearchBar,
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.all(20.0),
-                                child: mapMaker,
-                              ),
-                              border: OutlineInputBorder()),
+          Obx(
+            () => SizedBox(
+              width: 1200.w,
+              height: 300.h,
+              child: Column(
+                mainAxisAlignment: controller.hasData.value
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
+                crossAxisAlignment: controller.hasData.value
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(vXLspacing.w),
+                    child: const AnimatedTexts(),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        color: Theme.of(context).colorScheme.background,
+                        child: SizedBox(
+                          width: 960.w,
+                          child: TextField(
+                            onChanged: (str) =>
+                                {controller.address.value = str},
+                            autofillHints: const [
+                              AutofillHints.streetAddressLevel1
+                            ],
+                            style: Theme.of(context).textTheme.headline3,
+                            decoration: const InputDecoration(
+                                hintText: sHintTextSearchBar,
+                                labelText: sLabelTextSearchBar,
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: mapMaker,
+                                ),
+                                border: OutlineInputBorder()),
+                          ),
                         ),
                       ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.snackbar(
-                          sRequestSent,
-                          controller.address.value,
-                          snackPosition: SnackPosition.BOTTOM,
-                          colorText: Theme.of(context).colorScheme.surface,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.onBackground,
-                          maxWidth: 500.w,
-                          animationDuration: const Duration(milliseconds: 500),
-                          isDismissible: true,
-                          duration: const Duration(milliseconds: 2500),
-                        );
-                        controller.getData();
-                      },
-                      child: Padding(
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.snackbar(
+                            sRequestSent,
+                            controller.address.value,
+                            snackPosition: SnackPosition.BOTTOM,
+                            colorText: Theme.of(context).colorScheme.surface,
+                            backgroundColor:
+                                Theme.of(context).colorScheme.onBackground,
+                            maxWidth: 500.w,
+                            animationDuration:
+                                const Duration(milliseconds: 500),
+                            isDismissible: true,
+                            duration: const Duration(milliseconds: 2500),
+                          );
+                          controller.getData();
+                          _mapctl.move(
+                              LatLng(controller.scores.coordinates.latitude,
+                                  controller.scores.coordinates.longitude),
+                              7.0);
+                        },
+                        child: Padding(
+                            padding: EdgeInsets.all(vLspacing.w),
+                            child: iconSearch),
+                        style: ElevatedButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.button,
+                            primary: Theme.of(context).colorScheme.secondary),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Obx(
+            () => SizedBox(
+              width: 800.w,
+              height: 500.h,
+              child: controller.hasData.value
+                  ? Card(
+                      color: Theme.of(context).colorScheme.background,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Center(
+                        child: ListView(
                           padding: EdgeInsets.all(vLspacing.w),
-                          child: iconSearch),
-                      style: ElevatedButton.styleFrom(
-                          textStyle: Theme.of(context).textTheme.button,
-                          primary: Theme.of(context).colorScheme.secondary),
-                    ),
-                  ],
-                ),
-                Obx(
-                  () => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(controller.hasData.value
-                        ? controller.scores.address.street
-                        : "Xdd"),
-                  ),
-                ),
-                Obx(
-                  () => SizedBox(
-                    width: 800.w,
-                    height: 500.h,
-                    child: controller.hasData.value
-                        ? ListView(
-                            children: [
-                              ListTile(
-                                title: Text(controller
-                                    .scores.targets.companyFlat
-                                    .toString()),
+                          children: [
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.adversal),
+                              title: Text(
+                                "Company flat",
+                                style: Theme.of(context).textTheme.headline4,
                               ),
-                              ListTile(
-                                title: Text(controller.scores.targets.couples
-                                    .toString()),
+                              subtitle: Container(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  height: 20.h,
+                                  width: controller.scores.targets.companyFlat *
+                                      100),
+                              trailing: Text(controller
+                                      .scores.targets.companyFlat
+                                      .toStringAsFixed(2) +
+                                  "%"),
+                            ),
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.adversal),
+                              title: Text(
+                                "Students",
+                                style: Theme.of(context).textTheme.headline4,
                               ),
-                              ListTile(
-                                title: Text(controller.scores.targets.families
-                                    .toString()),
+                              subtitle: Container(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  height: 20.h,
+                                  width:
+                                      controller.scores.targets.students * 100),
+                              trailing: Text(controller
+                                      .scores.targets.companyFlat
+                                      .toStringAsFixed(2) +
+                                  "%"),
+                            ),
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.adversal),
+                              title: Text(
+                                "Couples",
+                                style: Theme.of(context).textTheme.headline4,
                               ),
-                              ListTile(
-                                title: Text(controller.scores.targets.single
-                                    .toString()),
+                              subtitle: Container(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  height: 20.h,
+                                  width:
+                                      controller.scores.targets.couples * 100),
+                              trailing: Text(controller
+                                      .scores.targets.companyFlat
+                                      .toStringAsFixed(2) +
+                                  "%"),
+                            ),
+                            ListTile(
+                              leading: FaIcon(FontAwesomeIcons.adversal),
+                              title: Text(
+                                "Families",
+                                style: Theme.of(context).textTheme.headline4,
                               ),
-                              ListTile(
-                                title: Text(controller.scores.targets.students
-                                    .toString()),
-                              ),
-                            ],
-                          )
-                        : null,
-                  ),
-                ),
-              ],
+                              subtitle: Container(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  height: 20.h,
+                                  width:
+                                      controller.scores.targets.families * 100),
+                              trailing: Text(controller
+                                      .scores.targets.companyFlat
+                                      .toStringAsFixed(2) +
+                                  "%"),
+                            ),
+                            ListTile(
+                              title: Text(
+                                  controller.scores.targets.couples.toString()),
+                            ),
+                            ListTile(
+                              title: Text(controller.scores.targets.families
+                                  .toString()),
+                            ),
+                            ListTile(
+                              title: Text(
+                                  controller.scores.targets.single.toString()),
+                            ),
+                            ListTile(
+                              title: Text(controller.scores.targets.students
+                                  .toString()),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : null,
             ),
           ),
         ],

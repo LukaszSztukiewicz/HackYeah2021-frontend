@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:landify/app/data/scores_model.dart';
 import 'package:landify/app/data/scores_provider.dart';
@@ -15,12 +16,10 @@ class HomeController extends GetxController {
     await ScoresProvider().getScores(address.value).then(
       (respScores) {
         scores = respScores;
-        print(scores.coordinates.latitude);
         hasData.value = true;
-        update();
       },
       onError: (err) {
-        //change(null, status: RxStatus.error(err.toString()));
+        Get.dialog(err);
       },
     );
   }
